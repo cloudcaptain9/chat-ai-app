@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mistral Chat</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white shadow-xl rounded-lg p-6 w-full max-w-xl">
+    <h1 class="text-2xl font-bold text-gray-800 mb-4 text-center">Ask ONYEKA AI</h1>
+    <textarea id="userInput" rows="4" class="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="Type your question here..."></textarea>
+    <button onclick="ask()" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200">
+      Send
+    </button>
+    <div class="mt-6">
+      <h2 class="text-gray-700 font-semibold mb-2">Response:</h2>
+      <pre id="responseBox" class="bg-gray-100 p-4 rounded-md whitespace-pre-wrap text-gray-800">Nothing yet...</pre>
+    </div>
+  </div>
+
+  <script>
+    async function ask() {
+      const msg = document.getElementById('userInput').value.trim();
+      if (!msg) return;
+      document.getElementById('responseBox').innerText = "Thinking...";
+
+      try {
+        const res = await fetch('/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: msg })
+        });
+
+        const data = await res.json();
+        document.getElementById('responseBox').innerText = data.response || data.error || "No response.";
+      } catch (err) {
+        document.getElementById('responseBox').innerText = "Error: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>
+
