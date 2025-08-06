@@ -1,0 +1,21 @@
+# app-deploy.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: chat-app
+  template:
+    metadata:
+      labels:
+        app: chat-app
+    spec:
+      containers:
+      - name: chat-app
+        image: cloudcaptain9/chat-ai-app
+        ports:
+        - containerPort: 3000
+# use container port 3000 cos i have a container running on 5000

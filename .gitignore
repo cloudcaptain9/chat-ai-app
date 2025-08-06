@@ -1,6 +1,4 @@
 # Ignore virtual environment
 venv/
 
-# Ignore requirements file
-requirements.txt
 
